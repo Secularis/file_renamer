@@ -1,9 +1,12 @@
 # file_renamer
 A Python-script to easily rename files in a given directory.
 
-This script requires a .xlsx-file named 'file_renamer' in directory 'c:/local/'.
-This .xlsx-file requires 2 columns ('A' and 'B') without headers, where column 'A' stores the current filenames and column 'B' stores the required filenames. 
+This script requires a .xlsx-file with 2 columns (headers are required, or the first file is skipped):
+* column 'A' contains the current filename
+* column 'B' contains the associated new filename
 
 Script execution:
-* a path containing the files to rename is requested from the user, using the command prompt.
-* each filename in the provided directory is searched in column 'A' of the .xlsx-file and, when found, renamed to the filename provided in column 'B' (in the same row) of the .xlsx-file.
+* the user selects a folder containing the files to rename, using the button "Select folder"
+* the user selects a .xlsx-file containing the conversion-matrix, using the button "Select xlsx"
+* the user starts the process using the button "Start rename"
+* the user exits the application using the button "Quit"

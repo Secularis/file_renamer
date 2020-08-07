@@ -1,43 +1,36 @@
 # file_renamer: file_renamer.py
+"""This application is a script to rename the files in a single folder,
+in a single action.
+The application requires a .xlsx-file with 2 columns, where column 'A' contains
+the current filename and column 'B' contains the required filename.
+"""
+# Import statement(s).
+from os import path
+import sys
+from tkinter import Tk
+from _c_filerenamerui import FileRenamerUI
 
-from os import path, rename
-from openpyxl import load_workbook
+def resource_path(relative_path):
+    """Get the absolute path to resource."""
+    base_path = getattr(sys, '_MEIPASS', path.dirname(path.abspath(__file__)))
+    return path.join(base_path, relative_path)
 
-def print_rev_to_console(name, rev, rev_date):
-    """Print a revision block to console."""
-    print(f"{name} by S. Cassier.\nRevision: {rev} - {rev_date}.\n")
-
-def read_excel():
-    filepath = 'c:/local/file_renamer.xlsx'
-    workbook = load_workbook(filename=filepath, read_only=True)
-    worksheet = workbook.active
-    
-    for line in worksheet.iter_rows(min_row=2, min_col=1):
-        yield [cell.value for cell in line]
-
-def rename_files():
-    input_path = input("Enter the path containing the files:\n> ")
-    list_files_to_rename = read_excel()
-
-    for line in list_files_to_rename:
-        if input_path.endswith("/"):
-            old_name = input_path + line[0]
-            new_name = input_path + line[1]
-        else:
-            old_name = input_path + "/" + line[0]
-            new_name = input_path + "/" + line[1]
-        
-        if verify_path(old_name):
-            rename(old_name, new_name)
-        else:
-            print(f"{old_name} not found.")
-    
-    print("Done.")
-    input("Press enter to exit.")
-
-def verify_path(filepath):
-    return True if path.isfile(filepath) else False
+def file_renamer():
+    """This is the main function for the file_renamer.
+    This function stores the revision information and calls the GUI-class.
+    """
+    # Variable(s).
+    rev_numb = 1.0
+    rev_date = "2020-08-07"
+    title = f"file_renamer by S. Cassier, rev. {rev_numb} ({rev_date})"
+    image_path = resource_path("red_ibis_64x64.ico")
+    # Call and loop the GUI.
+    root = Tk()
+    root.iconbitmap(image_path)
+    root.title(title)
+    root.resizable(False, False)
+    FileRenamerUI(root, rev_numb, rev_date)
+    root.mainloop()
 
 if __name__ == "__main__":
-    print_rev_to_console('file_renamer', 0.1, '2020-07-06')
-    rename_files()
+    file_renamer()
